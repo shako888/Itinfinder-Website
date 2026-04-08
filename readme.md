@@ -4,30 +4,30 @@
 
 ItinFinder is an AI-powered travel ecosystem designed to transform vague travel desires into highly detailed, actionable itineraries. Combining advanced LLMs with real-time web scraping, it offers a dual-mode experience tailored to every traveler's needs.
 
-## 🚀 Features
+##  Features
 
-### ⚡ Dual Generation Modes
+###  Dual Generation Modes
 - **Simple Mode (~10s)**: High-speed itinerary generation using Groq LLaMA 3.3 70B knowledge. Ideal for quick brainstorming and foundational planning.
 - **Deep Mode (~30s)**: Powered by TinyFish AI web agents that scrape real-time attraction hours, restaurant availability, and local events for unmatched accuracy.
 
-### 🧭 Complete Ecosystem
+###  Complete Ecosystem
 - **Budget Finder**: Intelligent destination recommendations based on your budget and timeframe.
 - **Alternative Suggestions**: Instant AI-generated alternatives for any activity in your plan.
 - **Travel Journaling**: Log daily memories directly within your trip.
 - **Community Explore**: Browse and share trending itineraries from travelers worldwide.
 
-### 🛡️ Smart & Secure
+###  Smart & Secure
 - **Rate Limiting**: Fair usage with 5 free daily requests.
 - **Privacy First**: Ghost mode for offline usage and secure Firebase authentication for synced data.
 - **Multi-language**: Fully localized support for English, Spanish, French, German, and Japanese.
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 - **Frontend**: React Native & Expo (Mobile App), HTML5 & Tailwind CSS (Presentation/Web)
 - **AI Core**: Groq (LLaMA 3.3 70B), TinyFish (Autonomous Web Agents)
 - **Backend/Services**: Firebase (Auth & Database), Open-Meteo (Weather Data), Stripe (Payments)
 
-## 📦 Project Structure
+##  Project Structure
 
 ```text
 ├── index.html          # Main presentation and project overview
@@ -38,16 +38,16 @@ ItinFinder is an AI-powered travel ecosystem designed to transform vague travel 
 └── push.bat            # Automated deployment script
 ```
 
-## 📱 Getting Started
+##  Getting Started
 
 1. Visit the [Download Page](downloads.html) to get the latest APK.
 2. Ensure "Install from Unknown Sources" is enabled on your Android device.
 3. Launch ItinFinder and start planning your next adventure!
 
-## 📄 License & Privacy
+##  License & Privacy
 
 ItinFinder is built with privacy at its core. Your data is stored securely via Firebase. For full details, see our [Privacy Policy](privacy.html).
 
 ---
 
-*Generated with ❤️ for ItinFinder Travelers.*
+*Made for ItinFinder Travelers.*
