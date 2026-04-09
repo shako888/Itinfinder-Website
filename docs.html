@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ItinFinder · Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#ffffff',
+                        secondary: '#a1a1aa',
+                        accent: '#3b82f6',
+                        dark: '#09090b',
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        glassBorder: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* === RESET & BASE === */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+        }
+
+        body {
+            background-color: #09090b;
+            /* Zinc 950 for 21st.dev vibe */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* === CUSTOM SCROLLBAR (WebKit) === */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.25);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(4px);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        /* For Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+        }
+
+        /* === GLASS COMPONENTS === */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* === GRADIENTS & TEXT === */
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .text-gradient-alt {
+            background: linear-gradient(135deg, #ffffff 0%, #71717a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* === BACKGROUND EFFECTS === */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* === NAVBAR === */
+        .navbar-blur {
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* === DOCUMENTATION SIDEBAR === */
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-left: 2px solid #ffffff;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            padding: 0.75rem 1rem 0.25rem;
+            font-weight: 600;
+        }
+
+        /* === DOCUMENTATION CONTENT === */
+        .doc-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .doc-content h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .doc-content h3 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .doc-content p {
+            color: #cbd5e1;
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+        }
+
+        .doc-content ul,
+        .doc-content ol {
+            color: #cbd5e1;
+            margin-bottom: 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .doc-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-content code {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #d4d4d8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .doc-content pre {
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .doc-content pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
+            color: #e2e8f0;
+        }
+
+        .doc-content .info-box {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid #06b6d4;
+            padding: 1rem 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .doc-content .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            padding: 1rem 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .doc-content th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+
+        .doc-content td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        /* === TABLE OF CONTENTS (RIGHT SIDEBAR) === */
+        .toc-link {
+            display: block;
+            padding: 0.25rem 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .toc-link:hover {
+            color: #06b6d4;
+        }
+
+        .toc-link.active {
+            color: #06b6d4;
+            font-weight: 500;
+        }
+
+        /* === BADGES & MISC === */
+        .badge-new {
+            background: rgba(6, 182, 212, 0.2);
+            color: #06b6d4;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: 0.5rem;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .badge {
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 40px;
+        }
+
+        /* === FIX STICKY SIDEBAR SPACING === */
+        .sticky {
+            position: sticky;
+            top: 5rem;
+            /* account for navbar */
+            max-height: calc(100vh - 6rem);
+            overflow-y: auto;
+            padding-right: 4px;
+            /* prevent content touching scrollbar */
+        }
+
+        /* === SMOOTH SCROLLING === */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* === CONTAINER PADDING ADJUSTMENTS === */
+        .doc-content {
+            padding-right: 1rem;
+        }
+
+        /* === HIDE UGLY SCROLLBAR ON SIDEBARS UNTIL HOVER (optional) === */
+        .sidebar-scroll {
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: transparent;
+            transition: background 0.2s;
+        }
+
+        .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        /* === FIX FOR OVERFLOW IN CODE BLOCKS === */
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* === FOCUS STATES === */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+        }
+
+        /* === MOBILE RESPONSIVENESS FIXES === */
+        /* Hide Mobile Navigator on Desktop by default */
+        .mobile-toc-fab,
+        .mobile-toc-overlay,
+        .mobile-toc-backdrop {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .doc-content {
+                padding-right: 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            /* Mobile Doc Navigator Styles (Only on Mobile) */
+            .mobile-toc-fab {
+                position: fixed;
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 56px;
+                height: 56px;
+                border-radius: 28px;
+                background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+                color: white;
+                box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 100;
+                transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .mobile-toc-fab:active {
+                transform: scale(0.9);
+            }
+
+            .mobile-toc-overlay {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 75vh;
+                background: #09090b;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                z-index: 150;
+                transform: translateY(100%);
+                transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                border-radius: 32px 32px 0 0;
+                padding: 1.5rem;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+            }
+
+            .mobile-toc-overlay.active {
+                transform: translateY(0);
+            }
+
+            .mobile-toc-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            }
+
+            .mobile-toc-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(8px);
+                z-index: 140;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+
+            .mobile-toc-backdrop.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .mobile-toc-link {
+                display: block;
+                padding: 0.85rem 1.25rem;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                color: #cbd5e1;
+                font-weight: 500;
+                transition: all 0.2s;
+                text-decoration: none;
+                font-size: 0.95rem;
+            }
+
+            .mobile-toc-link:active {
+                background: rgba(99, 102, 241, 0.2);
+                color: white;
+            }
+
+            .mobile-toc-link.active {
+                background: rgba(99, 102, 241, 0.15);
+                color: #818cf8;
+                border-color: rgba(99, 102, 241, 0.3);
+            }
+        }
+
+        /* Mobile Menu Active States (Global Hamburger) */
+        .menu-open #mobile-menu {
+            transform: translateX(0);
+        }
+
+        .menu-open #mobile-menu-button span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-open #mobile-menu-button span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-open #mobile-menu-button span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans">
+
+    <!-- Fixed Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 navbar-blur py-4 px-6 md:px-12 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2 group">
+            <span class="font-display text-2xl font-bold text-white">Itin<span
+                    class="text-gradient">Finder</span></span>
+            <span
+                class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/30">v1.0.0</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="index.html" class="text-slate-300 hover:text-white transition">Home</a>
+            <a href="docs.html" class="text-cyan-400 font-semibold">Documentation</a>
+            <a href="downloads.html" class="text-slate-300 hover:text-white transition">Download</a>
+            <a href="privacy.html" class="text-slate-300 hover:text-white transition">Privacy</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="downloads.html"
+                class="hidden sm:inline-block px-5 py-2 rounded-full glass-panel text-sm font-medium text-white hover:bg-white/10 transition">Download
+                APK</a>
+        </div>
+    </nav>
+
+    <!-- Background ambient effects -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="glow top-0 -left-20 animate-pulse-slow"></div>
+        <div class="glow bottom-0 -right-20 animate-pulse-slow" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Documentation Layout: Sidebar + Main + TOC -->
+    <main class="relative z-10 pt-20">
+        <div class="flex max-w-7xl mx-auto px-6 lg:px-8">
+
+            <!-- LEFT SIDEBAR NAVIGATION -->
+            <aside
+                class="hidden md:block w-52 lg:w-64 flex-shrink-0 py-8 pr-4 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto">
+                <div class="glass-panel rounded-2xl p-3">
+                    <div class="sidebar-section-title">GETTING STARTED</div>
+                    <a href="#introduction" class="sidebar-link active">Introduction</a>
+                    <a href="#quick-start" class="sidebar-link">Quick Start</a>
+                    <a href="#installation" class="sidebar-link">Installation</a>
+                    <a href="#project-structure" class="sidebar-link">Project Structure</a>
+
+                    <div class="sidebar-section-title mt-4">CORE FEATURES</div>
+                    <a href="#simple-mode" class="sidebar-link">Simple Mode</a>
+                    <a href="#deep-mode" class="sidebar-link">Deep Mode</a>
+                    <a href="#budget-finder" class="sidebar-link">Budget Finder</a>
+                    <a href="#community-explore" class="sidebar-link">Community Explore</a>
+                    <a href="#travel-journaling" class="sidebar-link">Travel Journaling</a>
+
+                    <div class="sidebar-section-title mt-4">AI GENERATION</div>
+                    <a href="#groq-integration" class="sidebar-link">Groq Integration</a>
+                    <a href="#tinyfish-agents" class="sidebar-link">TinyFish Agents</a>
+                    <a href="#prompt-engineering" class="sidebar-link">Prompt Engineering</a>
+
+                    <div class="sidebar-section-title mt-4">SECURITY & LIMITS</div>
+                    <a href="#authentication" class="sidebar-link">Authentication</a>
+                    <a href="#rate-limiting" class="sidebar-link">Rate Limiting</a>
+
+
+                    <div class="sidebar-section-title mt-4">API REFERENCE</div>
+                    <a href="#generation-api" class="sidebar-link">Generation API</a>
+                    <a href="#trip-storage" class="sidebar-link">Trip Storage</a>
+                    <a href="#user-profile" class="sidebar-link">User Profile</a>
+                    <a href="#export-functions" class="sidebar-link">Export Functions</a>
+                    <a href="#user-support" class="sidebar-link">User Support</a>
+
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT AREA -->
+            <div class="flex-1 min-w-0 py-8 px-4 lg:px-8">
+                <div class="doc-content max-w-3xl mx-auto lg:mx-0">
+
+                    <!-- Introduction -->
+                    <section id="introduction">
+                        <h1>Documentation</h1>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            Welcome to the official ItinFinder documentation. ItinFinder is an AI‑powered travel
+                            planning application built with React Native and Expo, designed to generate detailed,
+                            day‑by‑day itineraries using advanced language models and real‑time web scraping.
+                        </p>
+
+                        <div class="info-box">
+                            <p class="font-semibold text-cyan-300 mb-1">SDK Version: 53 (React Native 0.73)</p>
+                            <p class="text-sm text-slate-400">This documentation covers ItinFinder v1.0.0. For previous
+                                versions, refer to the versioned docs archive.</p>
+                        </div>
+
+                        <h2>What is ItinFinder?</h2>
+                        <p>ItinFinder transforms travel ideas into structured, actionable plans. Unlike traditional
+                            itinerary apps that rely on static databases, ItinFinder leverages:</p>
+                        <ul>
+                            <li><code>Groq LLaMA 3.3 70B</code> — Ultra‑fast inference for instant generation</li>
+                            <li><code>TinyFish Web Agents</code> — Autonomous browsing for live attraction and
+                                restaurant data</li>
+                            <li><code>Open‑Meteo</code> — 7‑day weather forecasts integrated into daily plans</li>
+                        </ul>
+                        <p>The app supports five languages, offline Mode, and a community‑driven explore feed. It is
+                            available as a direct APK download for Android devices.</p>
+                    </section>
+
+                    <!-- Quick Start -->
+                    <section id="quick-start">
+                        <h2>Quick Start</h2>
+                        <p>Get up and running with ItinFinder in under five minutes.</p>
+
+                        <h3>Prerequisites</h3>
+                        <ul>
+                            <li>Android 8.0+ (API level 26 or higher)</li>
+                            <li>Approximately 50 MB free storage</li>
+                            <li>Internet connection for AI generation </li>
+                        </ul>
+
+                        <h3>Download and Install</h3>
+                        <ol>
+                            <li>Download the latest APK from the <a href="downloads.html"
+                                    class="text-cyan-400 hover:underline">download page</a>.</li>
+                            <li>Enable "Install unknown apps" from Settings → Security.</li>
+                            <li>Open the downloaded <code>ItinFinder-latest.apk</code> file.</li>
+                            <li>Follow the on‑screen installation prompts.</li>
+                        </ol>
+
+                        <h3>First Generation</h3>
+                        <p>After installation, open ItinFinder. You will see the home screen with two generation
+                            options:</p>
+                        <ul>
+                            <li><strong>Simple Mode</strong> — Enter a destination and number of days. Results in ~10
+                                seconds.</li>
+                            <li><strong>Deep Mode</strong> — Provide additional preferences (budget, traveler type).
+                                Live scraping takes ~30 seconds.</li>
+                        </ul>
+                        <p>Each user receives 5 free daily simple Mode requests. Additional requests can be earned
+                            through rewarded advertisements or by upgrading to Pro.</p>
+                    </section>
+
+                    <!-- Installation -->
+                    <section id="installation">
+                        <h2>Installation</h2>
+                        <p>ItinFinder is distributed as a standalone APK. The following table summarizes the
+                            installation requirements and options.</p>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Requirement</th>
+                                    <th>Specification</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Minimum Android Version</td>
+                                    <td>5.0 (API 21)</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum Architecture</td>
+                                    <td>arm64‑v8a</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum RAM</td>
+                                    <td>3GB</td>
+                                </tr>
+                                <tr>
+                                    <td>Permissions Required</td>
+                                    <td>Internet, Notifications</td>
+                                </tr>
+                                <tr>
+                                    <td>APK Size</td>
+                                    <td>~320 MB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="warning-box">
+                            <p class="font-semibold text-yellow-300 mb-1">Unknown Sources Warning</p>
+                            <p class="text-sm text-slate-400">Android requires you to explicitly allow installation from
+                                unknown sources. This setting can be reverted after installation.</p>
+                        </div>
+
+
+                    </section>
+
+                    <!-- Project Structure -->
+                    <section id="project-structure">
+                        <h2>Project Structure</h2>
+                        <p>ItinFinder follows the standard Expo Router file‑based routing convention. The source tree is
+                            organized as follows:</p>
+                        <pre><code>TravelReccomendations/
+├── App.js                   # Application Entry point & Root Navigator Setup
+├── .env                     # Environment Variables (API Keys)
+├── package.json             # Dependencies and Scripts
+├── app.json                 # Expo Configuration
+│
+└── src/
+    ├── screens/             # Central Screens (UI Views)
+    │   ├── HomeScreen.js    # The primary travel planner / wizard
+    │   ├── ExploreScreen.js # Browse trending & community trips, access Budget AI
+    │   ├── ProfileScreen.js # User profile, stats, badges, settings, login/out
+    │   ├── ItineraryScreen.js # Displays generated trip
+    │   ├── ActiveTripScreen.js # Immersive view for an ongoing trip
+    │   ├── PaywallScreen.js # Pro subscription screen (Stripe)
+    │   └── ...              # Other supporting screens
+    │
+    ├── components/          # Reusable UI elements
+    │   ├── DestinationCard.js
+    │   ├── AppModal.js
+    │   └── ...
+    │
+    ├── services/            # Core logic & external API integration
+    │   ├── ai.js            # Groq & TinyFish AI calls
+    │   ├── storage.js       # Firestore & AsyncStorage data management
+    │   ├── authRateLimit.js # Limits for auth attempts
+    │   ├── notifications.js # Expo path notifications
+    │   ├── pdfExport.js     # HTML generation and PDF printing
+    │   └── weather.js       # Open-Meteo fetching
+    │
+    ├── context/             # React Contexts for global state
+    │   ├── AuthContext.js        # Firebase user session & migration
+    │   ├── PreferencesContext.js # Units, languages, currency settings
+    │   └── ModalContext.js       # Global alert modal management
+    │
+    ├── config/              # Configuration files
+    │   └── firebase.js      # Firebase initialization
+    │
+    ├── constants/           # Static app data (Legal content, etc.)
+    │
+    └── i18n/                # Localization configurations and JSON dictionaries</code></pre>
+                    </section>
+
+                    <!-- Simple Mode -->
+                    <section id="simple-mode">
+                        <h2>Simple Mode</h2>
+                        <p>Simple Mode is the fastest way to generate an itinerary. It relies entirely on the Groq LLM's
+                            internal knowledge, with no external data verification.</p>
+
+                        <h3>Parameters</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>destination</code></td>
+                                    <td>string</td>
+                                    <td>City or region name</td>
+                                </tr>
+                                <tr>
+                                    <td><code>days</code></td>
+                                    <td>number</td>
+                                    <td>Number of days (1‑14)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>language</code></td>
+                                    <td>string</td>
+                                    <td>Output language (en, es, fr, de, ja)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Example Request</h3>
+                        <pre><code>const response = await generateSimpleItinerary({
+  destination: "Kyoto",
+  days: 3,
+  language: "en"
+});</code></pre>
+
+                        <h3>Response Structure</h3>
+                        <pre><code>{
+  "id": "trip_abc123",
+  "destination": "Kyoto",
+  "days": [
+    {
+      "date": "2026-04-10",
+      "activities": [
+        {
+          "time": "09:00",
+          "title": "Fushimi Inari Shrine",
+          "description": "Hike through thousands of vermilion torii gates",
+          "type": "attraction"
+        }
+      ]
+    }
+  ]
+}</code></pre>
+                    </section>
+
+                    <!-- Deep Mode -->
+                    <section id="deep-mode">
+                        <h2>Deep Mode</h2>
+                        <p>Deep Mode extends Simple Mode with live web scraping via TinyFish agents. It verifies opening
+                            hours, checks restaurant availability, and surfaces current events.</p>
+                        <div class="info-box">
+                            <p class="font-semibold text-cyan-300 mb-1">Pro Feature</p>
+                            <p class="text-sm text-slate-400">Deep Mode is only available to Pro users. Pro subscribers
+                                have unlimited Deep Mode usage.</p>
+                        </div>
+
+                        <h3>Additional Parameters</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>budget</code></td>
+                                    <td>number</td>
+                                    <td>Total trip budget in USD</td>
+                                </tr>
+                                <tr>
+                                    <td><code>travelerType</code></td>
+                                    <td>enum</td>
+                                    <td>solo, couple, family, group</td>
+                                </tr>
+                                <tr>
+                                    <td><code>interests</code></td>
+                                    <td>array</td>
+                                    <td>culture, food, nature, nightlife, shopping</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>TinyFish Agent Flow</h3>
+                        <ol>
+                            <li>User submits destination and preferences.</li>
+                            <li>Groq generates a base itinerary skeleton.</li>
+                            <li>TinyFish agents scrape Google Maps, official attraction websites, and OpenTable.</li>
+                            <li>Live data is merged into the itinerary, with alternatives suggested for unavailable
+                                items.</li>
+                        </ol>
+                    </section>
+
+                    <!-- Budget Finder -->
+                    <section id="budget-finder">
+                        <h2>Budget Finder</h2>
+                        <p>The Budget Finder Assistant helps users discover destinations that match their financial
+                            constraints. It analyzes historical flight costs, accommodation averages, and daily expenses
+                            to recommend three optimal locations.</p>
+
+                        <h3>Usage</h3>
+                        <pre><code>const suggestions = await findDestinationsByBudget({
+  budget: 1500,
+  days: 7,
+  origin: "New York"
+});
+// Returns array of 3 destinations with cost breakdown</code></pre>
+
+                        <p>Each suggestion includes estimated airfare, lodging, food, and activities, all based on
+                            real‑time pricing data.</p>
+                    </section>
+
+                    <!-- Community Explore -->
+                    <section id="community-explore">
+                        <h2>Community Explore</h2>
+                        <p>Users can share their public trips and browse trending itineraries from around the world. The
+                            Explore feed is powered by Firebase Firestore and supports filtering by destination,
+                            duration, traveler type, budget and stars on itinery.</p>
+
+                        <h3>Moderation</h3>
+                        <p>All public trips are screened by an AI profanity filter. Reported content is reviewed within
+                            24 hours.</p>
+                    </section>
+
+                    <!-- Travel Journaling -->
+                    <section id="travel-journaling">
+                        <h2>Travel Journaling</h2>
+                        <p>During an active trip, users can log notes, photos, and ratings for each activity. Journal
+                            entries are stored locally and synced to Firebase when an internet connection is available.
+                        </p>
+                        <pre><code>await addJournalEntry(tripId, {
+  activityId: "act_456",
+  note: "The torii gates were breathtaking at sunrise.",
+  rating: 5,
+  photos: ["uri1", "uri2"]
+});</code></pre>
+                    </section>
+
+                    <!-- Groq Integration -->
+                    <section id="groq-integration">
+                        <h2>Groq Integration</h2>
+                        <p>ItinFinder uses the Groq Cloud API with the <code>llama-3.3-70b-versatile</code> model. The
+                            client is configured in <code>lib/groq.ts</code>.</p>
+
+                        <h3>Configuration</h3>
+                        <pre><code>import Groq from 'groq-sdk';
+
+const groq = new Groq({
+  apiKey: process.env.EXPO_PUBLIC_GROQ_API_KEY,
+  dangerouslyAllowBrowser: true // Required for React Native
+});</code></pre>
+
+                        <h3>Rate Limits</h3>
+                        <p>Groq enforces a 30 requests per minute limit per API key. ItinFinder implements client‑side
+                            throttling and queues requests when necessary.</p>
+                    </section>
+
+                    <!-- TinyFish Agents -->
+                    <section id="tinyfish-agents">
+                        <h2>TinyFish Agents</h2>
+                        <p>TinyFish is a third‑party service that provides autonomous web browsing agents. ItinFinder
+                            uses TinyFish to scrape real‑time data for Deep Mode generations.</p>
+
+                        <h3>Agent Configuration</h3>
+                        <pre><code>const agent = await createAgent({
+  task: "scrape_opening_hours",
+  url: "https://example.com/attraction",
+  extract: ["hours", "address", "phone"]
+});</code></pre>
+
+                        <p>Agents run in isolated containers and respect <code>robots.txt</code>. Results are cached for
+                            6 hours to reduce load.</p>
+                    </section>
+
+                    <!-- Prompt Engineering -->
+                    <section id="prompt-engineering">
+                        <h2>Prompt Engineering</h2>
+                        <p>All generation prompts are version‑controlled and stored in <code>lib/prompts/</code>. The
+                            system prompt enforces structured JSON output with activity types, time slots, and
+                            descriptions.</p>
+
+                        <h3>System Prompt Excerpt</h3>
+                        <pre><code>You are an expert travel planner. Generate a detailed day‑by‑day itinerary in valid JSON format.
+Include: destination, days (array), each day with date and activities.
+Each activity must have: time (HH:MM), title, description, type (attraction|food|transit).</code></pre>
+                    </section>
+
+                    <!-- Authentication -->
+                    <section id="authentication">
+                        <h2>Authentication</h2>
+                        <p>ItinFinder uses Firebase Authentication with email/password and anonymous sign‑in options.
+                            Auth state is persisted using AsyncStorage.</p>
+
+                        <h3>Anonymous Mode</h3>
+                        <p>Users can explore the app without creating an account. Trips are stored locally. To sync
+                            across devices, an account must be created.</p>
+
+                        <h3>Security Features</h3>
+                        <ul>
+                            <li>Brute‑force protection via Firebase</li>
+                            <li>AI‑powered profanity filtering for usernames</li>
+                            <li>Secure token refresh and revocation</li>
+                        </ul>
+                    </section>
+
+                    <!-- Rate Limiting -->
+                    <section id="rate-limiting">
+                        <h2>Rate Limiting</h2>
+                        <p>To ensure fair usage, ItinFinder enforces the following limits:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Free Tier</th>
+                                    <th>Pro Tier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Daily Generation Requests</td>
+                                    <td>5</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Deep Mode Cost</td>
+                                    <td>NIL</td>
+                                    <td>Unlimited request</td>
+                                </tr>
+                                <tr>
+                                    <td>Budget Finder</td>
+                                    <td>Unlimited</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Limits reset daily at 00:00 UTC. Additional requests for Simple Mode AI itinery generation
+                            can be earned by watching rewarded advertisements (up to 3 per day).</p>
+                    </section>
+
+
+
+                    <!-- Generation API -->
+                    <section id="generation-api">
+                        <h2>Generation API</h2>
+                        <p>The internal generation service exposes a unified interface for both Simple and Deep modes.
+                        </p>
+
+                        <h3>Function Signature</h3>
+                        <pre><code>async function generateItinerary(
+  params: GenerationParams,
+  mode: 'simple' | 'deep'
+): Promise&lt;Trip&gt;</code></pre>
+
+                        <h3>Error Handling</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Error Code</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>RATE_LIMITED</code></td>
+                                    <td>Daily request limit exceeded</td>
+                                </tr>
+                                <tr>
+                                    <td><code>INVALID_DESTINATION</code></td>
+                                    <td>Destination could not be recognized</td>
+                                </tr>
+                                <tr>
+                                    <td><code>SCRAPE_FAILED</code></td>
+                                    <td>TinyFish agent encountered an error (Deep Mode only)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>NETWORK_ERROR</code></td>
+                                    <td>No internet connection</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Trip Storage -->
+                    <section id="trip-storage">
+                        <h2>Trip Storage</h2>
+                        <p>Trip data is structured in Firestore with the following schema:</p>
+                        <pre><code>collection: trips
+document: {tripId}
+fields:
+  - userId: string
+  - destination: string
+  - startDate: timestamp
+  - days: array
+  - isPublic: boolean
+  - createdAt: timestamp
+  - updatedAt: timestamp</code></pre>
+                        <p>Local storage mirrors this schema using AsyncStorage with the key <code>@itin/trips</code>.
+                        </p>
+                    </section>
+
+                    <!-- User Profile -->
+                    <section id="user-profile">
+                        <h2>User Profile</h2>
+                        <p>User profile data includes preferences, subscription status, and badge progression.</p>
+
+                        <h3>Badges</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Badge</th>
+                                    <th>Requirement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Guest Explorer</td>
+                                    <td>Create first trip</td>
+                                </tr>
+                                <tr>
+                                    <td>Universe Traveler</td>
+                                    <td>Generate 50 trips</td>
+                                </tr>
+                                <tr>
+                                    <td>Deep Diver</td>
+                                    <td>Use Deep Mode 20 times</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Export Functions -->
+                    <section id="export-functions">
+                        <h2>Export Functions</h2>
+                        <p>ItinFinder supports exporting trips to PDF and sharing via deep links.</p>
+
+                        <h3>PDF Export</h3>
+                        <pre><code>import { generatePDF } from '@/lib/export';
+
+const pdfUri = await generatePDF(trip);
+// Returns file:// URI for sharing</code></pre>
+
+                        <h3>Share Link</h3>
+                        <pre><code>const shareUrl = await createShareLink(tripId);
+// Returns https://itin.app/trip/{tripId}</code></pre>
+                    </section>
+
+                    <!-- User Support -->
+                    <section id="user-support">
+                        <h2>User Support & FAQ</h2>
+                        <p>Having trouble with the app? Here are common issues and how you can solve them instantly.</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            <div class="glass-card p-6 rounded-2xl">
+                                <h3 class="mt-0 text-white">Generations & Limits</h3>
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"I've reached my daily limit."
+                                </p>
+                                <p class="text-xs text-slate-400">Free users get 5 AI itinerary generations every 24
+                                    hours. To get unlimited generations and live web data, you can upgrade to
+                                    <strong>ItinFinder Pro</strong> in your profile.
+                                </p>
+
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"Why is it taking so long?"</p>
+                                <p class="text-xs text-slate-400">Simple trips take ~10 seconds. Deep Mode trips take
+                                    ~30-60 seconds because our AI agents are researching live web data for you. Please
+                                    don't close the app while it's working!</p>
+                            </div>
+
+                            <div class="glass-card p-6 rounded-2xl">
+                                <h3 class="mt-0 text-white">Account & Login</h3>
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"I can't sign in."</p>
+                                <p class="text-xs text-slate-400">Double check that your email is spelled correctly. If
+                                    you've tried too many times, the app will ask you to wait 30 minutes for security
+                                    reasons.</p>
+
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"I forgot my password."</p>
+                                <p class="text-xs text-slate-400">Tap the "Forgot Password" link on the login screen,
+                                    and we'll email you a secure link to reset it.</p>
+                            </div>
+
+                            <div class="glass-card p-6 rounded-2xl">
+                                <h3 class="mt-0 text-white">App Features</h3>
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"The AI doesn't know my city."
+                                </p>
+                                <p class="text-xs text-slate-400">Try entering a larger nearby city or the country name.
+                                    The AI works best with established travel destinations.</p>
+
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"Can I use the app offline?"
+                                </p>
+                                <p class="text-xs text-slate-400">You can view all your <strong>Saved Trips</strong>
+                                    while offline. However, generating new trips or using the Explore feed requires an
+                                    internet connection.</p>
+                            </div>
+
+                            <div class="glass-card p-6 rounded-2xl">
+                                <h3 class="mt-0 text-white">Connectivity</h3>
+                                <p class="text-sm font-semibold text-cyan-400 mt-4 mb-1">"It says 'Network Error'."</p>
+                                <p class="text-xs text-slate-400">Your phone might have lost its connection. Check your
+                                    Wi-Fi or mobile data bars, and try refreshing the screen.</p>
+                            </div>
+                        </div>
+                    </section>
+
+
+
+                    <!-- Footer note -->
+                    <div class="border-t border-white/10 mt-16 pt-8 pb-4 text-sm text-slate-500">
+                        <p>Documentation last updated: April 2026 · ItinFinder v1.0.0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Documentation Navigator -->
+    <button id="mobile-toc-trigger" class="mobile-toc-fab">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+    </button>
+
+    <div id="mobile-toc-backdrop" class="mobile-toc-backdrop"></div>
+
+    <div id="mobile-toc" class="mobile-toc-overlay">
+        <div class="mobile-toc-header">
+            <h3 class="text-xl font-bold font-display">Navigation</h3>
+            <button id="mobile-toc-close" class="text-slate-400 p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="flex flex-col gap-2">
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 mt-2">Sections</div>
+            <a href="#introduction" class="mobile-toc-link">Introduction</a>
+            <a href="#quick-start" class="mobile-toc-link">Quick Start</a>
+            <a href="#installation" class="mobile-toc-link">Installation</a>
+            <a href="#project-structure" class="mobile-toc-link">Project Structure</a>
+            <a href="#simple-mode" class="mobile-toc-link">Simple Mode</a>
+            <a href="#deep-mode" class="mobile-toc-link">Deep Mode</a>
+            <a href="#budget-finder" class="mobile-toc-link">Budget Finder</a>
+            <a href="#community-explore" class="mobile-toc-link">Community Explore</a>
+            <a href="#travel-journaling" class="mobile-toc-link">Travel Journaling</a>
+            <a href="#groq-integration" class="mobile-toc-link">Groq Integration</a>
+            <a href="#tinyfish-agents" class="mobile-toc-link">TinyFish Agents</a>
+            <a href="#prompt-engineering" class="mobile-toc-link">Prompt Engineering</a>
+            <a href="#authentication" class="mobile-toc-link">Authentication</a>
+            <a href="#rate-limiting" class="mobile-toc-link">Rate Limiting</a>
+            <a href="#generation-api" class="mobile-toc-link">Generation API</a>
+            <a href="#trip-storage" class="mobile-toc-link">Trip Storage</a>
+            <a href="#user-profile" class="mobile-toc-link">User Profile</a>
+            <a href="#export-functions" class="mobile-toc-link">Export Functions</a>
+            <a href="#user-support" class="mobile-toc-link">User Support</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-white/10 py-8 text-center text-slate-500 text-sm">
+        <div class="container mx-auto px-6">
+            <p>ItinFinder · Intelligent Travel Planning · © 2026</p>
+            <div class="mt-3 flex justify-center gap-6">
+                <a href="index.html" class="hover:text-cyan-400 transition">Home</a>
+                <a href="docs.html" class="text-cyan-400 font-medium">Documentation</a>
+                <a href="downloads.html" class="hover:text-cyan-400 transition">Download</a>
+                <a href="privacy.html" class="hover:text-cyan-400 transition">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer for active sidebar/toc highlighting -->
+    <script>
+            (function () {
+                const sections = document.querySelectorAll('section[id]');
+                const sidebarLinks = document.querySelectorAll('.sidebar-link');
+                const mobileTocLinks = document.querySelectorAll('.mobile-toc-link');
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+
+                            sidebarLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('active');
+                                }
+                            });
+
+                            mobileTocLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                }, { threshold: 0.3, rootMargin: '-80px 0px -20% 0px' });
+
+                sections.forEach(section => observer.observe(section));
+
+                // Mobile TOC Toggle Logic
+                const mobileTocTrigger = document.getElementById('mobile-toc-trigger');
+                const mobileToc = document.getElementById('mobile-toc');
+                const mobileTocBackdrop = document.getElementById('mobile-toc-backdrop');
+                const mobileTocClose = document.getElementById('mobile-toc-close');
+
+                const toggleMobileToc = (show) => {
+                    if (show) {
+                        mobileToc.classList.add('active');
+                        mobileTocBackdrop.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        mobileToc.classList.remove('active');
+                        mobileTocBackdrop.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                };
+
+                mobileTocTrigger?.addEventListener('click', () => toggleMobileToc(true));
+                mobileTocBackdrop?.addEventListener('click', () => toggleMobileToc(false));
+                mobileTocClose?.addEventListener('click', () => toggleMobileToc(false));
+
+                // Smooth scroll for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        if (href === '#') return;
+                        const target = document.querySelector(href);
+                        if (target) {
+                            e.preventDefault();
+
+                            // Close mobile menus if open
+                            toggleMobileToc(false);
+                            document.body.classList.remove('menu-open');
+
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+
+                // Global Mobile Hamburger Menu Toggle logic
+                const menuBtn = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+
+                if (menuBtn && mobileMenu) {
+                    menuBtn.addEventListener('click', () => {
+                        document.body.classList.toggle('menu-open');
+                        // Close TOC if menu is opened
+                        toggleMobileToc(false);
+                    });
+                }
+            })();
+    </script>
+
+</body>
+
+</html>

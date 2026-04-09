@@ -20,10 +20,10 @@
             display: ['Space Grotesk', 'sans-serif'],
           },
           colors: {
-            primary: '#6366f1',
-            secondary: '#ec4899',
-            accent: '#06b6d4',
-            dark: '#0f172a',
+            primary: '#ffffff',
+            secondary: '#a1a1aa',
+            accent: '#3b82f6',
+            dark: '#030712', /* Pure pitch dark / Zinc 950 variant */
             glass: 'rgba(255, 255, 255, 0.05)',
             glassBorder: 'rgba(255, 255, 255, 0.1)',
           },
@@ -68,32 +68,32 @@
   </script>
   <style>
     body {
-      background-color: #0f172a;
+      background-color: #030712;
       color: #f8fafc;
     }
 
     .glass-panel {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
     }
 
     .glass-card {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .glass-card:hover {
-      transform: translateY(-5px) scale(1.02);
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
     }
 
     .text-gradient {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -164,6 +164,98 @@
       backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
+
+    /* 21st.dev Aurora Magic Animations */
+    @keyframes aurora1 {
+      0% {
+        transform: translateX(-100px) translateY(-50px) rotate(0deg) scale(1);
+      }
+
+      50% {
+        transform: translateX(50px) translateY(30px) rotate(180deg) scale(1.1);
+      }
+
+      100% {
+        transform: translateX(100px) translateY(-30px) rotate(360deg) scale(0.9);
+      }
+    }
+
+    @keyframes aurora2 {
+      0% {
+        transform: translateX(80px) translateY(40px) rotate(45deg) scale(0.8);
+      }
+
+      50% {
+        transform: translateX(-30px) translateY(-20px) rotate(225deg) scale(1.2);
+      }
+
+      100% {
+        transform: translateX(-80px) translateY(60px) rotate(405deg) scale(0.9);
+      }
+    }
+
+    @keyframes aurora3 {
+      0% {
+        transform: translateX(-50px) translateY(20px) rotate(90deg) scale(1.1);
+      }
+
+      50% {
+        transform: translateX(70px) translateY(-40px) rotate(270deg) scale(0.8);
+      }
+
+      100% {
+        transform: translateX(-20px) translateY(50px) rotate(450deg) scale(1.0);
+      }
+    }
+
+    @keyframes aurora4 {
+      0% {
+        transform: translateX(30px) translateY(-20px) rotate(135deg) scale(0.9);
+      }
+
+      50% {
+        transform: translateX(-60px) translateY(10px) rotate(315deg) scale(1.1);
+      }
+
+      100% {
+        transform: translateX(40px) translateY(-60px) rotate(495deg) scale(0.8);
+      }
+    }
+
+    /* Mobile Menu Active States */
+    .menu-open #mobile-menu {
+      transform: translateX(0);
+    }
+    .menu-open #mobile-menu-button span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .menu-open #mobile-menu-button span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-open #mobile-menu-button span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Mobile Menu Items Appearance Logic */
+    .mobile-link {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .menu-open .mobile-link {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered delays for Nav Things */
+    .menu-open .mobile-link:nth-child(1) { transition-delay: 0.20s; }
+    .menu-open .mobile-link:nth-child(2) { transition-delay: 0.25s; }
+    .menu-open .mobile-link:nth-child(3) { transition-delay: 0.30s; }
+    .menu-open .mobile-link:nth-child(4) { transition-delay: 0.35s; }
+    .menu-open .mobile-link:nth-child(5) { transition-delay: 0.40s; }
+    .menu-open .mobile-link:nth-child(6) { transition-delay: 0.45s; }
+    .menu-open .mobile-link:nth-child(7) { transition-delay: 0.50s; }
   </style>
 </head>
 
@@ -184,23 +276,60 @@
       <a href="#testimonials" class="text-slate-300 hover:text-white transition">Testimonials</a>
       <a href="#faq" class="text-slate-300 hover:text-white transition">FAQ</a>
       <a href="privacy.html" class="text-slate-300 hover:text-white transition">Privacy</a>
+      <a href="docs.html" class="text-slate-300 hover:text-white transition">Docs</a>
+      <a href="about.html" class="text-slate-300 hover:text-white transition">About</a>
     </div>
     <div class="flex items-center gap-3">
-      <a href="downloads.html"
-        class="hidden sm:inline-block px-5 py-2 rounded-full glass-panel text-sm font-medium text-white hover:bg-white/10 transition">Download
+      <a href="apkfile/application-dd4ee3e5-c9d3-4e25-bd29-d357fff5a508.apk" download
+        class="hidden sm:inline-block px-5 py-2 rounded-full glass-panel text-sm font-medium text-white hover:bg-white/10 transition-all">Download
         APK</a>
-      <a href="downloads.html" class="sm:hidden px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-medium">Get
+      <a href="apkfile/application-dd4ee3e5-c9d3-4e25-bd29-d357fff5a508.apk" download class="sm:hidden px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-medium">Get
         App</a>
+      
+      <!-- Hamburger Menu Button -->
+      <button id="mobile-menu-button" class="md:hidden text-white flex flex-col gap-1.5 p-2 focus:outline-none z-50">
+        <span class="w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+        <span class="w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+        <span class="w-6 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+      </button>
     </div>
   </nav>
 
-  <!-- Background ambient effects -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="glow top-0 -left-20 animate-pulse-slow"></div>
-    <div class="glow bottom-0 -right-20 animate-pulse-slow" style="animation-delay: 2s;"></div>
-    <div class="absolute top-1/3 left-1/4 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl animate-float"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float"
-      style="animation-delay: 1.5s;"></div>
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 bg-zinc-950/98 backdrop-blur-2xl translate-x-full transition-transform duration-500 md:hidden flex flex-col items-center justify-center gap-8 px-6 text-center">
+    <a href="#home" class="mobile-link text-4xl font-bold text-white hover:text-cyan-400 transition">Home</a>
+    <a href="#modes" class="mobile-link text-4xl font-bold text-white hover:text-cyan-400 transition">Features</a>
+    <a href="#ecosystem" class="mobile-link text-4xl font-bold text-white hover:text-cyan-400 transition">Ecosystem</a>
+    <a href="#tech" class="mobile-link text-4xl font-bold text-white hover:text-cyan-400 transition">Tech</a>
+    <a href="docs.html" class="mobile-link text-4xl font-bold text-white hover:text-cyan-400 transition">Docs</a>
+    <a href="about.html" class="mobile-link text-4xl font-bold text-white hover:text-cyan-400 transition">About</a>
+    <a href="downloads.html" class="mobile-link px-10 py-5 rounded-full bg-white text-zinc-950 font-bold mt-6 text-xl hover:bg-slate-200 transition transform active:scale-95">Download App</a>
+  </div>
+
+  <!-- 21st.dev Aurora Animated Background -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#030712]">
+    <div class="absolute inset-0 opacity-70">
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-900/40 via-purple-900/30 to-[#030712]">
+      </div>
+    </div>
+
+    <div class="absolute inset-0 blur-[90px] mix-blend-screen">
+      <div class="absolute inset-0 opacity-60"
+        style="background: radial-gradient(ellipse 800px 600px at 50% 20%, rgba(99, 102, 241, 0.4) 0%, transparent 50%); animation: aurora1 12s ease-in-out infinite alternate;">
+      </div>
+      <div class="absolute inset-0 opacity-50"
+        style="background: radial-gradient(ellipse 600px 400px at 80% 30%, rgba(2ec, 72, 153, 0.4) 0%, transparent 50%); animation: aurora2 10s ease-in-out infinite alternate-reverse;">
+      </div>
+      <div class="absolute inset-0 opacity-40"
+        style="background: radial-gradient(ellipse 700px 500px at 20% 60%, rgba(6, 182, 212, 0.3) 0%, transparent 50%); animation: aurora3 14s ease-in-out infinite alternate;">
+      </div>
+      <div class="absolute inset-0 opacity-30"
+        style="background: radial-gradient(ellipse 900px 300px at 60% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%); animation: aurora4 11s ease-in-out infinite alternate-reverse;">
+      </div>
+    </div>
+
+    <div class="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-[#030712]/10"></div>
   </div>
 
   <!-- Main Content -->
@@ -249,7 +378,7 @@
     </section>
 
     <!-- DUAL MODES SECTION -->
-    <section id="modes" class="py-24 px-6 relative bg-slate-900/80">
+    <section id="modes" class="py-24 px-6 relative bg-[#09090b]">
       <div class="container mx-auto max-w-6xl">
         <div class="text-center mb-16">
           <h2 class="font-display text-5xl md:text-6xl font-bold mb-4 slide-left">
@@ -324,96 +453,79 @@
     </section>
 
     <!-- ECOSYSTEM / BEYOND GENERATION -->
-    <section id="ecosystem" class="py-24 px-6 relative bg-gradient-to-b from-slate-900 to-slate-800">
+    <section id="ecosystem" class="py-24 px-6 relative bg-[#030712]">
       <div class="container mx-auto max-w-7xl">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 class="font-display text-5xl font-bold mb-6 leading-tight slide-left">
-              Beyond <span class="text-gradient-alt">Generation</span><br>
-              Your Travel Companion
-            </h2>
-            <p class="text-slate-400 text-lg mb-8 leading-relaxed slide-left" style="transition-delay: 0.1s">
-              ItinFinder supports your whole journey — from planning alternatives to journaling memories.
-            </p>
-            <div class="space-y-4">
-              <div class="glass-card p-4 rounded-xl flex items-center gap-4 slide-left" style="transition-delay: 0.15s">
-                <div
-                  class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300 text-xl font-bold">
-                  ⇄</div>
-                <div>
-                  <h4 class="font-bold">Alternative Suggestions</h4>
-                  <p class="text-sm text-slate-400">Swap any activity with AI-generated alternatives tailored to your
-                    preferences</p>
-                </div>
-              </div>
-              <div class="glass-card p-4 rounded-xl flex items-center gap-4 slide-left" style="transition-delay: 0.2s">
-                <div
-                  class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-300 text-xl font-bold">
-                  🌐</div>
-                <div>
-                  <h4 class="font-bold">Community Explore</h4>
-                  <p class="text-sm text-slate-400">Share trips and browse trending itineraries from global travelers
-                  </p>
-                </div>
-              </div>
-              <div class="glass-card p-4 rounded-xl flex items-center gap-4 slide-left" style="transition-delay: 0.25s">
-                <div
-                  class="w-12 h-12 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-300 text-xl font-bold">
-                  📓</div>
-                <div>
-                  <h4 class="font-bold">Travel Journaling</h4>
-                  <p class="text-sm text-slate-400">Log daily notes and memories directly within your active trip</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="relative slide-right">
+        <div class="text-center mb-16">
+          <h2 class="font-display text-5xl md:text-6xl font-bold mb-4 fade-up">
+            Your Ultimate <span class="text-gradient-alt">Companion</span>
+          </h2>
+          <p class="text-slate-400 text-lg fade-up" style="transition-delay: 0.1s">Everything you need for an
+            unforgettable journey.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Features from README -->
+          <div class="glass-card p-8 rounded-3xl fade-up border-t border-t-purple-500/30">
             <div
-              class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-3xl blur-3xl opacity-20 animate-pulse-slow">
-            </div>
-            <div class="glass-panel rounded-3xl p-8 relative">
-              <div class="space-y-6">
-                <div class="flex items-center justify-between pb-6 border-b border-white/10">
-                  <div>
-                    <h3 class="font-display text-2xl font-bold">Trip to Kyoto</h3>
-                    <p class="text-slate-400 text-sm">7 days · Cultural & Culinary</p>
-                  </div>
-                  <div class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold">Active</div>
-                </div>
-                <div class="space-y-4">
-                  <div class="flex gap-4">
-                    <div class="w-16 text-right text-sm text-slate-500">09:00</div>
-                    <div class="flex-1 glass-card p-3 rounded-lg border-l-4 border-indigo-500">
-                      <h5 class="font-semibold text-sm">Fushimi Inari Shrine</h5>
-                      <p class="text-xs text-slate-400">Hike through thousands of vermilion torii gates</p>
-                    </div>
-                  </div>
-                  <div class="flex gap-4">
-                    <div class="w-16 text-right text-sm text-slate-500">13:00</div>
-                    <div class="flex-1 glass-card p-3 rounded-lg border-l-4 border-orange-500">
-                      <h5 class="font-semibold text-sm">Traditional Kaiseki Lunch</h5>
-                      <p class="text-xs text-slate-400">Multi-course seasonal dining</p><button
-                        class="mt-2 text-xs px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-cyan-400 transition">Alternative</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="pt-4 flex gap-3">
-                  <button
-                    class="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm font-medium transition">Export
-                    PDF</button>
-                  <button
-                    class="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm font-medium transition">Share
-                    Trip</button>
-                </div>
-              </div>
-            </div>
+              class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-300 text-2xl mb-6">
+              ⇄</div>
+            <h4 class="font-bold text-xl mb-3">Alternative Suggestions</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">Don't like a specific activity? Tap it, and the AI will
+              swap it out with a new, distinct suggestion tailored completely to your distinct parameters.</p>
+          </div>
+
+          <div class="glass-card p-8 rounded-3xl fade-up border-t border-t-cyan-500/30" style="transition-delay: 0.1s">
+            <div
+              class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-300 text-2xl mb-6">
+              🌐</div>
+            <h4 class="font-bold text-xl mb-3">Community Explore</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">Share your masterpiece trips with the world, or browse
+              trending and community top-rated itineraries for instant globetrotting inspiration.</p>
+          </div>
+
+          <div class="glass-card p-8 rounded-3xl fade-up border-t border-t-orange-500/30"
+            style="transition-delay: 0.2s">
+            <div
+              class="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-300 text-2xl mb-6">
+              📓</div>
+            <h4 class="font-bold text-xl mb-3">Journaling & Memories</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">Log your daily travel notes, ratings, and attach pictures
+              directly inside the active itinerary view.</p>
+          </div>
+
+          <div class="glass-card p-8 rounded-3xl fade-up border-t border-t-blue-500/30" style="transition-delay: 0.3s">
+            <div
+              class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-300 text-2xl mb-6">
+              🌤️</div>
+            <h4 class="font-bold text-xl mb-3">Live Weather Integrations</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">Through Open-Meteo, get 7-day weather forecasts baked
+              right into your destination's daily plans.</p>
+          </div>
+
+          <div class="glass-card p-8 rounded-3xl fade-up border-t border-t-pink-500/30" style="transition-delay: 0.4s">
+            <div
+              class="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-300 text-2xl mb-6">
+              🏆</div>
+            <h4 class="font-bold text-xl mb-3">Lifetime Achievements</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">Track how many trips you've completed and unlock profile
+              badges. Rise from a Guest Explorer to a Universe Traveler!</p>
+          </div>
+
+          <div class="glass-card p-8 rounded-3xl fade-up border-t border-t-emerald-500/30"
+            style="transition-delay: 0.5s">
+            <div
+              class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-300 text-2xl mb-6">
+              📄</div>
+            <h4 class="font-bold text-xl mb-3">Export & Share</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">Easily generate a beautifully crafted PDF representation
+              of your detailed itinerary to share with family and friends.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ADVANCED INTELLIGENCE + TECH STACK -->
-    <section id="tech" class="py-24 px-6 relative bg-slate-900">
+    <section id="tech" class="py-24 px-6 relative bg-[#09090b]">
       <div class="container mx-auto max-w-6xl">
         <div class="text-center mb-12">
           <h2 class="font-display text-5xl font-bold mb-4 fade-up">Advanced <span
@@ -478,7 +590,7 @@
     </section>
 
     <!-- SECURITY & RATE LIMITING -->
-    <section id="security" class="py-24 px-6 relative bg-gradient-to-br from-slate-800 to-slate-900">
+    <section id="security" class="py-24 px-6 relative bg-[#030712] border-t border-white/5">
       <div class="container mx-auto max-w-6xl">
         <div class="max-w-4xl mx-auto text-center mb-16">
           <h2 class="font-display text-5xl font-bold mb-6 slide-left">Security & <span class="text-gradient">Rate
@@ -493,12 +605,13 @@
               <h3 class="text-xl font-bold">Usage Controls</h3>
             </div>
             <ul class="space-y-4 text-slate-300 text-sm">
-              <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-red-400 mt-2"></span>Daily
-                request limits enforced via Firebase or AsyncStorage in ghost mode</li>
+              <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-red-400 mt-2"></span>Free
+                users gated to 5 AI requests/day securely tracked via Firebase or local AsyncStorage</li>
               <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-red-400 mt-2"></span>Rewarded
-                advertisements available for additional credit generation</li>
-              <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-red-400 mt-2"></span>Secure
-                cloud synchronization across all user devices</li>
+                advertisements available for additional daily credits</li>
+              <li class="flex items-start gap-3"><span
+                  class="w-1.5 h-1.5 rounded-full bg-red-400 mt-2"></span>Cross-device data syncing securely through
+                Firebase Cloud Firestore</li>
             </ul>
           </div>
           <div class="glass-card rounded-2xl p-8 slide-right">
@@ -506,18 +619,18 @@
               <div
                 class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-300 text-xl">
                 🛡️</div>
-              <h3 class="text-xl font-bold">Authentication Protection</h3>
+              <h3 class="text-xl font-bold">Authentication & Limits</h3>
             </div>
             <ul class="space-y-4 text-slate-300 text-sm">
               <li class="flex items-start gap-3"><span
-                  class="w-1.5 h-1.5 rounded-full bg-green-400 mt-2"></span>Brute-force protection on login and password
-                reset routes</li>
+                  class="w-1.5 h-1.5 rounded-full bg-green-400 mt-2"></span>Brute-force protection automatically applied
+                to login and reset password routes</li>
               <li class="flex items-start gap-3"><span
-                  class="w-1.5 h-1.5 rounded-full bg-green-400 mt-2"></span>AI-powered profanity filtering for username
-                moderation</li>
+                  class="w-1.5 h-1.5 rounded-full bg-green-400 mt-2"></span>Profanity filters strictly applied via AI
+                moderation check during profile creation</li>
               <li class="flex items-start gap-3"><span
-                  class="w-1.5 h-1.5 rounded-full bg-green-400 mt-2"></span>Firebase Authentication with secure token
-                management</li>
+                  class="w-1.5 h-1.5 rounded-full bg-green-400 mt-2"></span>Firebase Authentication handles state and
+                token management safely</li>
             </ul>
           </div>
         </div>
@@ -616,7 +729,7 @@
     </section>
 
     <!-- FAQ SECTION -->
-    <section id="faq" class="py-24 px-6 relative bg-slate-900">
+    <section id="faq" class="py-24 px-6 relative bg-[#09090b]">
       <div class="container mx-auto max-w-4xl">
         <h2 class="font-display text-4xl md:text-5xl font-bold text-center mb-16 fade-up">Frequently Asked <span
             class="text-gradient-alt">Questions</span></h2>
@@ -646,7 +759,7 @@
     </section>
 
     <!-- FINAL CTA -->
-    <section class="py-28 px-6 relative bg-slate-900">
+    <section class="py-28 px-6 relative bg-[#030712] border-t border-white/5">
       <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/20 to-transparent"></div>
       <div class="container mx-auto text-center max-w-4xl relative z-10">
         <h2 class="font-display text-5xl md:text-7xl font-bold mb-6 scale-in">Ready to <span
@@ -654,7 +767,7 @@
         <p class="text-xl text-slate-400 mb-10 fade-up">Download the latest APK and start your intelligent journey
           today.</p>
         <div class="flex flex-col sm:flex-row gap-5 justify-center fade-up" style="transition-delay: 0.2s">
-          <a href="downloads.html"
+          <a href="apkfile/application-dd4ee3e5-c9d3-4e25-bd29-d357fff5a508.apk" download
             class="px-10 py-5 bg-white text-slate-900 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center gap-2 justify-center">
             Download APK v1.0.0
           </a>
@@ -681,12 +794,12 @@
     <!-- Footer -->
     <footer class="border-t border-white/10 py-8 text-center text-slate-500 text-sm">
       <div class="container mx-auto px-6">
-        <p>ItinFinder · Intelligent Travel Planning · © 2026</p>
+        <p>ItinFinder · Intelligent Travel Planning · © 2026 </p>
         <p class="mt-2 text-xs">APK available on the download page. Enable "unknown sources" to install.</p>
         <div class="mt-4 flex justify-center gap-6">
           <a href="downloads.html" class="hover:text-cyan-400 transition">Download</a>
           <a href="privacy.html" class="hover:text-cyan-400 transition">Privacy</a>
-          <a href="#" class="hover:text-cyan-400 transition">GitHub</a>
+          <a href="https://github.com/jjtjtyt6644" class="hover:text-cyan-400 transition">GitHub</a>
         </div>
       </div>
     </footer>
@@ -701,8 +814,7 @@
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               entry.target.classList.add('animated');
-              // Optional: unobserve after animation to reduce overhead
-              // observer.unobserve(entry.target);
+
             }
           });
         }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
@@ -719,6 +831,23 @@
           });
         }, 100);
       })();
+
+      // Mobile Menu Toggle logic
+      const menuBtn = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          document.body.classList.toggle('menu-open');
+        });
+
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            document.body.classList.remove('menu-open');
+          });
+        });
+      }
   </script>
 
   <!-- Smooth scroll for same-page anchor links (preserve default behavior) -->
